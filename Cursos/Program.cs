@@ -10,6 +10,25 @@ namespace Cursos
     {
         static void Main(string[] args)
         {
+            Curso c = new Curso();
+
+            c.InserirCurso();
+            Console.ReadLine();
+            c.InserirCurso();
+            Console.ReadLine();
+            c.InserirCurso();
+            Console.ReadLine();
+
+            c.CalcularNumerHoras();
+            c.MostrarNumeroHorasTotal();
+            Console.ReadLine();
+
+            Console.WriteLine($"{Curso.TransformarNomeCursoMaiusculas(c)}");
+            Console.ReadLine();
+
+            c.ListarCurso();
+
+
         }
     }
 }

@@ -17,8 +17,8 @@ Métodos privados à classe:
     2. Método para transformar e devolver o nome do curso em maiúsculas: TransformarNomeCursoMaiusculas [+/-]
     
 Métodos da classe ou derivadas:
-    1. Método de instância void que pede os valores ao user, guarda nas propriedades e adiciona à lista: InserirCurso
-    2. Método estático void que recebe a lista de cursos e mostra no ecrã: ListarCurso
+    1. Método de instância void que pede os valores ao user, guarda nas propriedades e adiciona à lista: InserirCurso [V]
+    2. Método estático void que recebe a lista de cursos e mostra no ecrã: ListarCurso [V]
 
 Testar:
     Usar o Main para testar a classe

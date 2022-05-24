@@ -8,9 +8,10 @@ namespace Cursos
 {
     internal class Curso
     {
+        // 
         private double duracaoHoras = 0;
         protected double numeroMedioSessoes = 10;
-        private Dictionary<int, Curso> listaCursos = new Dictionary<int, Curso>();
+        private List<Curso> listaCursos = new List<Curso>();
 
         // Field
         private string nomeCurso = string.Empty;
@@ -22,18 +23,31 @@ namespace Cursos
             set { nomeCurso = value; }
         }
 
-        internal int CursoID { get; set; }
+        internal string CursoID { get; set; }
         internal string NumeroSessoes { get; set; }
         internal string NumeroHorasPorSessao { get; set; }
 
-        internal static double CalcularNumeroHoras(Curso c)
-        { 
-            return Convert.ToDouble(c.NumeroHorasPorSessao) * Convert.ToDouble(c.NumeroSessoes);
+        internal void CalcularNumerHoras()
+        {
+            double acc = 0;
+
+            foreach (Curso item in listaCursos)
+            {
+                acc += (Convert.ToDouble(item.NumeroHorasPorSessao) * Convert.ToDouble(item.NumeroSessoes));
+            }
+
+            duracaoHoras = acc;
+        }
+
+        internal void MostrarNumeroHorasTotal()
+        {
+            Console.WriteLine($"{duracaoHoras}");
+            Console.ReadLine();
         }
 
         internal static string TransformarNomeCursoMaiusculas(Curso c)
         {
-            return c.nomeCurso.ToUpper();
+            return c.NomeCurso.ToUpper();
         }
 
         internal void InserirCurso()
@@ -47,17 +61,17 @@ namespace Cursos
             Console.Write("Quantas Horas por Sessão: ");
             c.NumeroHorasPorSessao = Console.ReadLine();
 
-            int chave = 0;
-            int contagemChave = listaCursos.Count(p => p.Key.Contains(chave));
+            listaCursos.Add(c);
+        }
 
-            if (contagemChave == 0)
+        internal void ListarCurso()
+        {
+            foreach (Curso item in listaCursos)
             {
-                listaCursos.Add(chave, c);
+                Console.WriteLine($"{item.NomeCurso}");
             }
-            else
-            {
-                listaCursos.Add($"{chave}{contagemChave + 1}", c);
-            }
+
+            Console.ReadKey();
         }
     }
 }
