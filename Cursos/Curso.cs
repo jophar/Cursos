@@ -23,7 +23,7 @@ namespace Cursos
             set { nomeCurso = value; }
         }
 
-        internal string CursoID { get; set; }
+        internal int CursoID { get; set; }
         internal string NumeroSessoes { get; set; }
         internal string NumeroHorasPorSessao { get; set; }
 
@@ -41,8 +41,9 @@ namespace Cursos
 
         internal void MostrarNumeroHorasTotal()
         {
-            Console.WriteLine($"{duracaoHoras}");
-            Console.ReadLine();
+            Console.WriteLine($"Numero total de horas de Formação: {duracaoHoras}h");
+            Console.Write("Premir enter para continuar...");
+            Console.ReadLine();   
         }
 
         internal static string TransformarNomeCursoMaiusculas(Curso c)
@@ -61,14 +62,27 @@ namespace Cursos
             Console.Write("Quantas Horas por Sessão: ");
             c.NumeroHorasPorSessao = Console.ReadLine();
 
+            if (listaCursos.Count == 0)
+                c.CursoID = 0;
+            else
+            {
+                c.CursoID = listaCursos.Count + 1;
+            }
+
             listaCursos.Add(c);
         }
 
-        internal void ListarCurso()
+        internal List<Curso> DevolverLista()
         {
-            foreach (Curso item in listaCursos)
+            return listaCursos;
+        }
+
+        internal static void ListarCurso(List<Curso> l)
+        {
+
+            foreach (Curso item in l)
             {
-                Console.WriteLine($"{item.NomeCurso}");
+                Console.WriteLine($"Nome: {item.NomeCurso}");
             }
 
             Console.ReadKey();

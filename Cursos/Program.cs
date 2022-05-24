@@ -20,13 +20,13 @@ namespace Cursos
             Console.ReadLine();
 
             c.CalcularNumerHoras();
-            c.MostrarNumeroHorasTotal();
+            c.MostrarNumeroHorasTotal(); // Metodo interno para extrair a variavel da classe
             Console.ReadLine();
 
-            Console.WriteLine($"{Curso.TransformarNomeCursoMaiusculas(c)}");
-            Console.ReadLine();
+            List<Curso> lista = new List<Curso>();
 
-            c.ListarCurso();
+            lista = c.DevolverLista(); // Metodo interno para extrair a variável da classe
+            Curso.ListarCurso(lista);
 
 
         }
