@@ -104,6 +104,11 @@ namespace Cursos
             Curso c = new Curso(id, nomeCurso, numSessoes, numHoras);
 
             listaCursos.Add(c);
+
+            Console.WriteLine($"Curso inserido com sucesso com id {id}");
+            Console.WriteLine("Premir enter para continuar...");
+            Console.ReadKey();
+            Console.Clear();
         }
 
         internal List<Curso> DevolverLista()
