@@ -49,66 +49,80 @@ namespace Cursos
         }
 
         // TODO MRS: assim não usas a variável duracaoHoras
-        private static int CalcularNumeroHoras(Curso c) // ver melhor, é só para fazer por curso
+        // MARIZ: Done!
+        private int CalcularNumeroHoras() // ver melhor, é só para fazer por curso
         {
-            return c.NumeroHorasPorSessao * c.NumeroSessoes;
+            return NumeroHorasPorSessao * NumeroSessoes;
         }
 
         // TODO MRS: assim não usas a variável nomeCurso
-        private static string TransformarNomeCursoMaiusculas(string s) // não é preciso passar o objecto.
+        // MARIZ: Done?! (não consigo usar para gravar no objecto já em maiusculas mas consigo usar para escrever em maiusculas)
+        private string TransformarNomeCursoMaiusculas() // não é preciso passar o objecto.
         {
-            return s.ToUpper();
+            return nomeCurso.ToUpper();
         }
 
         // TODO MRS: não se deve usar o try...catch desta forma, mas sim um no método Main, onde o objeto e os métodos são chamados
+        // MARIZ: atualizado para TryParse // TODO: Refaturar o metodo
         protected internal void InserirCurso()
         {
+            bool validate;
             string nomeCurso;
-            int numSessoes, numHoras, id;
+            int numSessoes, numHoras, parser;
 
             Console.WriteLine("Inserção de Curso\n");
 
             Console.Write("Nome do Curso: ");
             nomeCurso = Console.ReadLine();
 
-            try // teste ao numero de sessoes
-            {
-                Console.Write("Numero de Sessões: ");
-                numSessoes = Convert.ToInt16(Console.ReadLine());
-            } 
-            catch(System.FormatException)
-            { 
+            Console.Write("Numero de Sessões: ");
+            validate = int.TryParse(Console.ReadLine(), out parser);
+            if(validate)    
+                numSessoes = parser;
+            else
+	        {
                 Console.WriteLine("Numero inválido, inserido valor default: (1)");
                 numSessoes = 1;
-            }
+	        }
 
-            try // teste ao numero de horas por sessao
-            {
-                Console.Write("Quantas Horas por Sessão: ");
-                numHoras = Convert.ToInt16(Console.ReadLine());
-            }
-            catch (System.FormatException)
-            {
+            // Reset Bools and Parser
+            validate = true;
+            parser = 0;
+
+            Console.Write("Quantas Horas por Sessão: ");
+            validate = int.TryParse(Console.ReadLine(), out parser);
+            if(validate)    
+                numHoras = parser;
+            else
+	        {
                 Console.WriteLine("Numero inválido, inserido valor default: (1)");
                 numHoras = 1;
-            }
+	        }
+            
 
             // Calculo automatico do ID a partir do tamanho da lista
             // TODO MRS: isto não é realista, porque num cenário real posso ter o id 100 e fisicamente ter somente 2 cursos. Deve ser sempre pesquisado o maaior valor do ID e incrementar
-            if (listaCursos.Count == 0)
-                id = 1;
-            else
-            {
-                id = listaCursos.Count + 1;
-            }
+            // MARIZ: reescrito o bloco para ler a lista e extrair o ID fazendo comparação de teste e gravando o incremento. Zero Based
+            
+            // reaproveitar a variavel
+            parser = 0; 
 
-            nomeCurso = TransformarNomeCursoMaiusculas(nomeCurso);
+            foreach (Curso item in listaCursos)
+	        {
+                if(item.CursoID > parser)
+                    parser = item.CursoID; 
+                else
+	            {
+                    parser++;
+	            }
 
-            Curso c = new Curso(id, nomeCurso, numSessoes, numHoras);
+	        }
+
+            Curso c = new Curso(parser, nomeCurso, numSessoes, numHoras);
 
             listaCursos.Add(c);
 
-            Console.WriteLine($"Curso inserido com sucesso com id {id}");
+            Console.WriteLine($"Curso inserido com sucesso com id {parser}");
             Console.WriteLine("Premir enter para continuar...");
             Console.ReadKey();
             Console.Clear();
@@ -124,11 +138,11 @@ namespace Cursos
 
             foreach (Curso item in l)
             {
-                int duracaoTotal = 0;
-                duracaoTotal = CalcularNumeroHoras(item);
+                string capsCurso = item.TransformarNomeCursoMaiusculas();
+                int duracaoTotal = item.CalcularNumeroHoras();
 
                 Console.WriteLine($"Curso ID: {item.CursoID} \n" +
-                                  $"\tNome: {item.NomeCurso} \n" +
+                                  $"\tNome: {capsCurso} \n" +
                                   $"\tNumero Sessoes: {item.NumeroSessoes} \n" +
                                   $"\tNumero de Horas por Sessao: {item.NumeroHorasPorSessao}\n" +
                                   $"\tNumero Total de Horas: {duracaoTotal}\n\n");
@@ -138,4 +152,3 @@ namespace Cursos
         }
     }
 }
-  
