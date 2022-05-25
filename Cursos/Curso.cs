@@ -48,16 +48,19 @@ namespace Cursos
             NumeroHorasPorSessao = horas;
         }
 
+        // TODO MRS: assim não usas a variável duracaoHoras
         private static int CalcularNumeroHoras(Curso c) // ver melhor, é só para fazer por curso
         {
             return c.NumeroHorasPorSessao * c.NumeroSessoes;
         }
 
+        // TODO MRS: assim não usas a variável nomeCurso
         private static string TransformarNomeCursoMaiusculas(string s) // não é preciso passar o objecto.
         {
             return s.ToUpper();
         }
 
+        // TODO MRS: não se deve usar o try...catch desta forma, mas sim um no método Main, onde o objeto e os métodos são chamados
         protected internal void InserirCurso()
         {
             string nomeCurso;
@@ -91,7 +94,7 @@ namespace Cursos
             }
 
             // Calculo automatico do ID a partir do tamanho da lista
-
+            // TODO MRS: isto não é realista, porque num cenário real posso ter o id 100 e fisicamente ter somente 2 cursos. Deve ser sempre pesquisado o maaior valor do ID e incrementar
             if (listaCursos.Count == 0)
                 id = 1;
             else
