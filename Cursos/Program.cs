@@ -14,6 +14,7 @@ namespace Cursos
 
             c.InserirCurso();
             c.InserirCurso();
+            Console.Clear();   
 
             List<Curso> lista = new List<Curso>();
             lista = c.DevolverLista(); // Metodo interno para extrair a variável da classe
