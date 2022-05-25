@@ -1,5 +1,8 @@
+v0
+
 Classe:
     1. Classe Curso para ser usada somente na mesma assembly    [V]
+
 Variáveis:
     1. Variável para uso interno da classe: duracaoHoras        [V]
     2. Variável da classe ou derivadas, com valor 10: numeroMedioSessoes [V]
@@ -22,3 +25,7 @@ Métodos da classe ou derivadas:
 
 Testar:
     Usar o Main para testar a classe
+
+v1
+    Fazer construtores
+    Refaturar o InserirCurso

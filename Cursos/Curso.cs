@@ -4,18 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// DUVIDAS:
+// como é que criando duas instancias do objecto ele grava na mesma lista?
+// é errado criar um objecto dentro da própria classe?
 namespace Cursos
 {
     internal class Curso
     {
-        // 
+        // Variáveis
         private double duracaoHoras = 0;
         protected double numeroMedioSessoes = 10;
         private List<Curso> listaCursos = new List<Curso>();
 
         // Field
         private string nomeCurso = string.Empty;
-
+                                      
         // Classic Property
         internal string NomeCurso
         {
@@ -24,50 +27,81 @@ namespace Cursos
         }
 
         internal int CursoID { get; set; }
-        internal string NumeroSessoes { get; set; }
-        internal string NumeroHorasPorSessao { get; set; }
+        internal int NumeroSessoes { get; set; }
+        internal int NumeroHorasPorSessao { get; set; }
 
-        internal void CalcularNumerHoras()
+        // Constructos
+
+        internal Curso()
         {
-            double acc = 0;
-
-            foreach (Curso item in listaCursos)
-            {
-                acc += (Convert.ToDouble(item.NumeroHorasPorSessao) * Convert.ToDouble(item.NumeroSessoes));
-            }
-
-            duracaoHoras = acc;
+            CursoID = 0;
+            NomeCurso = string.Empty;
+            NumeroSessoes = 0;
+            NumeroHorasPorSessao = 0;
         }
 
-        internal void MostrarNumeroHorasTotal()
+        internal Curso(int id, string nome, int sessoes, int horas)
         {
-            Console.WriteLine($"Numero total de horas de Formação: {duracaoHoras}h");
-            Console.Write("Premir enter para continuar...");
-            Console.ReadLine();   
+            CursoID = id;
+            NomeCurso = nome;
+            NumeroSessoes = sessoes;
+            NumeroHorasPorSessao = horas;
         }
 
-        internal static string TransformarNomeCursoMaiusculas(Curso c)
+        private static int CalcularNumeroHoras(Curso c) // ver melhor, é só para fazer por curso
         {
-            return c.NomeCurso.ToUpper();
+            return c.NumeroHorasPorSessao * c.NumeroSessoes;
         }
 
-        internal void InserirCurso()
+        private static string TransformarNomeCursoMaiusculas(string s) // não é preciso passar o objecto.
         {
-            Curso c = new Curso();
+            return s.ToUpper();
+        }
+
+        protected internal void InserirCurso()
+        {
+            string nomeCurso;
+            int numSessoes, numHoras, id;
+
+            Console.WriteLine("Inserção de Curso\n");
 
             Console.Write("Nome do Curso: ");
-            c.NomeCurso = Console.ReadLine();
-            Console.Write("Numero de Sessões: ");
-            c.NumeroSessoes = Console.ReadLine();
-            Console.Write("Quantas Horas por Sessão: ");
-            c.NumeroHorasPorSessao = Console.ReadLine();
+            nomeCurso = Console.ReadLine();
+
+            try // teste ao numero de sessoes
+            {
+                Console.Write("Numero de Sessões: ");
+                numSessoes = Convert.ToInt16(Console.ReadLine());
+            } 
+            catch(System.FormatException)
+            { 
+                Console.WriteLine("Numero inválido, inserido valor default: (1)");
+                numSessoes = 1;
+            }
+
+            try // teste ao numero de horas por sessao
+            {
+                Console.Write("Quantas Horas por Sessão: ");
+                numHoras = Convert.ToInt16(Console.ReadLine());
+            }
+            catch (System.FormatException)
+            {
+                Console.WriteLine("Numero inválido, inserido valor default: (1)");
+                numHoras = 1;
+            }
+
+            // Calculo automatico do ID a partir do tamanho da lista
 
             if (listaCursos.Count == 0)
-                c.CursoID = 0;
+                id = 1;
             else
             {
-                c.CursoID = listaCursos.Count + 1;
+                id = listaCursos.Count + 1;
             }
+
+            nomeCurso = TransformarNomeCursoMaiusculas(nomeCurso);
+
+            Curso c = new Curso(id, nomeCurso, numSessoes, numHoras);
 
             listaCursos.Add(c);
         }
@@ -77,15 +111,23 @@ namespace Cursos
             return listaCursos;
         }
 
-        internal static void ListarCurso(List<Curso> l)
+        protected internal static void ListarCurso(List<Curso> l)
         {
 
             foreach (Curso item in l)
             {
-                Console.WriteLine($"Nome: {item.NomeCurso}");
+                int duracaoTotal = 0;
+                duracaoTotal = CalcularNumeroHoras(item);
+
+                Console.WriteLine($"Curso ID: {item.CursoID} \n" +
+                                  $"\tNome: {item.NomeCurso} \n" +
+                                  $"\tNumero Sessoes: {item.NumeroSessoes} \n" +
+                                  $"\tNumero de Horas por Sessao: {item.NumeroHorasPorSessao}\n" +
+                                  $"\tNumero Total de Horas: {duracaoTotal}\n\n");
             }
 
             Console.ReadKey();
         }
     }
 }
+  
